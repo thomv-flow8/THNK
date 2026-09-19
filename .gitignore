@@ -8,6 +8,7 @@
 !/serve.mjs
 !/sync-releases.mjs
 !/releases.config.mjs
+!/prerender.mjs
 
 # Hero-experimenten en ongebruikte code
 /site/_preview/
