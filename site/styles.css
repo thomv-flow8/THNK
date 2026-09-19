@@ -237,10 +237,10 @@ h1,h2,h3{ margin:0; font-weight:800; letter-spacing:-.02em; line-height:1 }
      lengte, zo verdwijnt het patroon overal na hetzelfde stuk. Het vlak is
      ook maar zo hoog als het zichtbare deel: een gemaskeerd vlak over een
      hele (lange) sectie is op telefoons te groot en gaat flikkeren. */
-  height:640px; bottom:auto;
+  height:1100px; bottom:auto;
   opacity:.055;
-  -webkit-mask-image:linear-gradient(to bottom, #000 0, rgba(0,0,0,.4) 260px, transparent 640px);
-          mask-image:linear-gradient(to bottom, #000 0, rgba(0,0,0,.4) 260px, transparent 640px);
+  -webkit-mask-image:linear-gradient(to bottom, #000 0, #000 380px, rgba(0,0,0,.45) 700px, transparent 1100px);
+          mask-image:linear-gradient(to bottom, #000 0, #000 380px, rgba(0,0,0,.45) 700px, transparent 1100px);
 }
 .hero__logo{ width:min(52vw, 340px) }
 .hero__logo img{ width:100%; height:auto }
