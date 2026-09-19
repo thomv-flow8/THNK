@@ -155,6 +155,35 @@ h1,h2,h3{ margin:0; font-weight:800; letter-spacing:-.02em; line-height:1 }
 }
 .hero__front .hero__tagline{ text-shadow:0 1px 16px rgba(0,0,0,.95), 0 0 2px rgba(0,0,0,.6) }
 
+/* Touchscreens: diepte via CSS-scrollanimaties in plaats van hero.js. Die
+   draaien op hetzelfde spoor als het scrollen zelf, dus zonder haperen of
+   flikkeren. Zelfde snelheden als in hero.js (--f). Browsers die dit niet
+   kennen tonen de lagen stil — ook rustig. Geldt ook voor de ijsgrot. */
+@keyframes hero-sink{ to{ transform:translate3d(0, calc(var(--f) * 100svh), 0) } }
+@keyframes cave-drift{
+  from{ transform:translate3d(0, 7%, 0) }
+  to  { transform:translate3d(0, -7%, 0) }
+}
+@media (hover:none), (pointer:coarse){
+  @media (prefers-reduced-motion:no-preference){
+    @supports (animation-timeline: scroll()){
+      .hero__mountain{ --f:.70 }
+      .hero__mark    { --f:.38 }
+      .hero__dunes   { --f:.22 }
+      .hero__moss    { --f:.04 }
+      .hero__mountain, .hero__mark, .hero__dunes, .hero__moss{
+        animation:hero-sink linear both;
+        animation-timeline:scroll(root);
+        animation-range:0 100svh;
+      }
+      .cave{
+        animation:cave-drift linear both;
+        animation-timeline:view();
+      }
+    }
+  }
+}
+
 /* ---------------------------------------------------------------- *
    Achtergrondpatroon — het liggende streepje uit het logo in vier
    standen. Kleur volgt de sectie, dus op wit wordt het vanzelf zwart.

@@ -8,14 +8,21 @@
  *
  * Stilstaand bij bewegingsreductie en in de opnamestand (?shot); stopt
  * zodra de hero uit beeld is.
+ *
+ * Alleen met muis. Op een touchscreen scrolt de browser op een eigen spoor
+ * en loopt JavaScript daar net achter: de lagen verspringen dan en het
+ * beeld flikkert. Daar doet CSS de beweging (styles.css, scroll-animaties).
  * ------------------------------------------------------------------ */
+const MOUSE = matchMedia('(hover: hover) and (pointer: fine)').matches;
+
 (function () {
   'use strict';
 
   const host = document.getElementById('hero');
   if (!host) return;
   if (matchMedia('(prefers-reduced-motion: reduce)').matches
-    || document.body.classList.contains('is-shot')) return;
+    || document.body.classList.contains('is-shot')
+    || !MOUSE) return;
 
   // factor: hoeveel de laag meezakt bij scrollen (1 = blijft staan in beeld)
   // px:     hoeveel pixels de laag opzij schuift met de muis
@@ -65,7 +72,8 @@
   const cave = sec && sec.querySelector('.cave');
   if (!cave) return;
   if (matchMedia('(prefers-reduced-motion: reduce)').matches
-    || document.body.classList.contains('is-shot')) return;
+    || document.body.classList.contains('is-shot')
+    || !MOUSE) return;
 
   let pending = false, visible = false;
   function apply() {
