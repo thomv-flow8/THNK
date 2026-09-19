@@ -14,6 +14,10 @@
     if (text != null) n.textContent = text;
     return n;
   };
+  // Maakt een blok leeg voor het opnieuw gevuld wordt. De gepubliceerde
+  // pagina bevat al een tekstversie (prerender.mjs).
+  const clear = (n) => { n.replaceChildren(); return n; };
+
   // Voer fn uit met het element, maar alleen als het op deze pagina bestaat.
   const on = (sel, fn) => { const n = $(sel); if (n) fn(n); };
 
@@ -140,6 +144,7 @@
 
   // Homepage: nieuwste release groot
   on('#feature', (n) => {
+    clear(n);
     const r = REL[0];
     if (!r) return;
     const a = linkFor(r);
@@ -156,10 +161,11 @@
   });
 
   // Homepage: de zes daarna
-  on('#latest', (n) => REL.slice(1, 7).forEach((r) => n.append(card(r))));
+  on('#latest', (n) => clear(n) && REL.slice(1, 7).forEach((r) => n.append(card(r))));
 
   // Muziekpagina: alles, gegroepeerd per jaar, met filter
   on('#disco', (n) => {
+    clear(n);
     const years = [...new Set(REL.map((r) => r.year))];     // al gesorteerd, nieuwste eerst
     const count = (y) => REL.filter((r) => r.year === y).length;
 
@@ -214,6 +220,7 @@
 
   // Knoppenrij met de diensten waar je muziek staat.
   on('#platforms', (n) => {
+    clear(n);
     (CONTENT.platforms || []).filter((p) => p.url).forEach((p) => {
       const a = external(el('a', null, p.name), p.url);
       const icon = brandIcon(p.name);
@@ -226,6 +233,8 @@
    * Geen data? Dan verdwijnt de lijst en komt er een uitnodiging voor
    * in de plaats. Een lege agenda tonen is slechter dan geen agenda.  */
   on('#dateList', (dateBox) => {
+    clear(dateBox);
+    dateBox.parentElement.querySelector('.past')?.remove();
     const dates = (CONTENT.dates || []).filter((d) => d && d.date);
     if (dates.length) {
       const fmt = new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
@@ -285,6 +294,7 @@
    * Onder de bio: de DJ's die zijn tracks draaiden. De namen komen één
    * voor één binnen zodra het blok in beeld komt.                     */
   on('#about-body', (about) => {
+    about.parentElement.querySelector('.support')?.remove();
     const sb = CONTENT.supportedBy;
     if (!sb || !(sb.names || []).length) return;
     const box = el('div', 'support');
@@ -304,6 +314,7 @@
 
   /* --- Over -------------------------------------------------------- */
   on('#about-body', (about) => {
+    clear(about);
     const text = el('div', 'about__text');
     (CONTENT.bio || []).forEach((p) => text.append(el('p', null, p)));
     about.append(text);
@@ -385,6 +396,7 @@
 
   /* --- Boekingen --------------------------------------------------- */
   on('#booking-body', (bk) => {
+    clear(bk);
     if (CONTENT.booking && CONTENT.booking.email) {
       const a = el('a', 'booking__mail', CONTENT.booking.email);
       a.href = `mailto:${CONTENT.booking.email}`;
@@ -397,6 +409,7 @@
 
   /* --- Socials ----------------------------------------------------- */
   on('#socials', (soc) => {
+    clear(soc);
     (CONTENT.socials || []).filter((s) => s.url).forEach((s) => {
       const li = el('li');
       const a = external(el('a', null, s.name), s.url);

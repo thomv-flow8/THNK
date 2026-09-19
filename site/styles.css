@@ -578,3 +578,19 @@ body.is-shot .rule-in{ opacity:1; transform:none; transition:none }
 @media (prefers-reduced-motion:reduce){
   .reveal,.rule-in{ opacity:1; transform:none; transition:none }
 }
+
+/* ---------------------------------------------------------------- *
+   Tekstpagina's (privacy, contact)
+   ---------------------------------------------------------------- */
+.page__text{ max-width:62ch; margin-top:clamp(24px,4vw,40px) }
+.page__text p{ margin:0 0 1.1em; color:var(--muted) }
+.page__text h2{ margin:2em 0 .6em; font-size:clamp(18px,2.2vw,24px); text-transform:uppercase }
+.page__text a{ border-bottom:1px solid var(--line) }
+.page__text a:hover{ border-bottom-color:var(--fg) }
+.page__list{ margin:0 0 1.4em; display:flex; flex-direction:column; gap:.7em; color:var(--muted) }
+.page__list li{ padding-left:1.1em; position:relative }
+.page__list li::before{ content:''; position:absolute; left:0; top:.62em;
+  width:.55em; height:.12em; border-radius:999px; background:currentColor; opacity:.5 }
+.page__meta{ font-size:12px; letter-spacing:.06em; color:var(--faint) }
+.foot__legal a{ border-bottom:1px solid var(--line) }
+.foot__legal a:hover{ border-bottom-color:var(--fg) }

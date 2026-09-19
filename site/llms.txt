@@ -8,6 +8,8 @@
 
 - [Home](https://thomv-flow8.github.io/THNK/): latest release, Spotify player, shows, about and booking.
 - [Music](https://thomv-flow8.github.io/THNK/music.html): every EP, single and remix, filterable by year.
+- [Contact](https://thomv-flow8.github.io/THNK/contact.html): bookings, remixes and collaborations.
+- [Privacy](https://thomv-flow8.github.io/THNK/privacy.html): what this site stores and which third parties load.
 
 ## About
 

@@ -24,6 +24,13 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+      # Zet de teksten uit content.js als gewone HTML in de pagina's, zodat
+      # zoekmachines en AI-assistenten ze zonder JavaScript lezen. Alleen
+      # hier: de bestanden in de repo blijven leeg en overzichtelijk.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node prerender.mjs
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
