@@ -25,6 +25,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800&display=swap" rel="stylesheet">
 
+<!-- Het logo is het eerste wat je ziet: alvast ophalen -->
+<link rel="preload" as="image" href="assets/thnk-logo-wit.svg">
+
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -48,7 +51,10 @@
        Elke laag schuift met een eigen snelheid mee (hero.js). -->
   <section class="hero" id="hero">
     <div class="hero__layer hero__mountain" aria-hidden="true"></div>
-    <div class="hero__layer hero__mark"><h1 class="hero__logo" id="heroLogo"><img src="assets/thnk-logo-wit.svg" alt="THNK — techno and progressive"></h1></div>
+    <div class="hero__layer hero__mark"><h1 class="hero__logo" id="heroLogo">
+        <img src="assets/thnk-logo-wit.svg" width="202" height="236" alt="">
+        <span class="vh">THNK — techno and progressive</span>
+      </h1></div>
     <div class="hero__layer hero__dunes" aria-hidden="true"></div>
     <div class="hero__layer hero__moss" aria-hidden="true"></div>
     <div class="hero__shade" aria-hidden="true"></div>
