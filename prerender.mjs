@@ -33,8 +33,11 @@ const dateFmt = (iso) => new Intl.DateTimeFormat('en-GB',
   { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(iso));
 
 const listen = (r) => r.spotify || r.link || '';
+// De link krijgt een naam mee: bij de uitgelichte release staat er alleen
+// een hoes in, en een link zonder tekst is onbruikbaar met een voorlezer.
+const label = (r) => `${r.title} — ${r.artists}, ${r.year}. Listen on ${r.spotify ? 'Spotify' : 'Apple Music'}`;
 const link = (r, inner) => (listen(r)
-  ? `<a href="${esc(listen(r))}" target="_blank" rel="noopener">${inner}</a>`
+  ? `<a href="${esc(listen(r))}" target="_blank" rel="noopener" aria-label="${esc(label(r))}">${inner}</a>`
   : inner);
 
 // Vaste maat: de pagina springt niet als de hoezen binnenkomen. Leeg alt,
@@ -116,8 +119,9 @@ const socials = () => (CONTENT.socials || []).filter((s) => s.url)
 const disco = () => {
   const years = [...new Set(REL.map((r) => r.year))];
   // H2, want de paginakop is een H1: koppen mogen geen niveau overslaan
-  return years.map((y, yi) => `<section><h2 class="disco__label">${esc(y)}</h2><ul class="covers">`
-    + REL.filter((r) => r.year === y).map((r, i) => card(r, yi === 0 && i < 3)).join('')
+  let n = 0;   // de eerste zes staan bij het openen in beeld: die niet lui laden
+  return years.map((y) => `<section><h2 class="disco__label">${esc(y)}</h2><ul class="covers">`
+    + REL.filter((r) => r.year === y).map((r) => card(r, n++ < 6)).join('')
     + `</ul></section>`).join('');
 };
 
@@ -130,7 +134,14 @@ function put(html, id, inner) {
   return html.replace(re, (m, open, tag, old, close) => open + inner + close);
 }
 
+// Het grootste beeld bovenaan alvast ophalen, zodat het sneller staat.
+const preloadCover = (html, r) => (r && r.cover
+  ? html.replace('<link rel="stylesheet" href="styles.css">',
+    `<link rel="preload" as="image" href="${esc(r.cover)}">\n<link rel="stylesheet" href="styles.css">`)
+  : html);
+
 let index = readFileSync(`${DIR}/index.html`, 'utf8');
+index = preloadCover(index, REL[0]);
 index = put(index, 'tagline', esc(CONTENT.tagline || ''));
 index = put(index, 'feature', feature());
 index = put(index, 'latest', latest());
@@ -144,6 +155,7 @@ index = index.replace(/(<div class="about" id="about-body">[\s\S]*?<\/div>\s*)(<
   (m, body, close) => `${body}${support()}\n    ${close}`);
 
 let music = readFileSync(`${DIR}/music.html`, 'utf8');
+music = preloadCover(music, REL[0]);
 const years = [...new Set(REL.map((r) => r.year))];
 music = put(music, 'discoCount', `${REL.length} releases, ${years[years.length - 1]}–${years[0]}.`);
 music = put(music, 'disco', disco());
