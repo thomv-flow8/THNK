@@ -41,5 +41,4 @@ extra remixes en Spotify-links staan in `releases.config.mjs`.
 ## Nog te doen vóór lancering
 
 - Boekingsadres invullen (`booking@thnk.nl` is een plaatshouder)
-- Lettertype (Archivo) zelf hosten in plaats van via Google Fonts
 - Persfoto's
