@@ -126,10 +126,12 @@
   const listenUrl = (r) => r.spotify || r.link || '';
   const listenOn = (r) => (r.spotify ? 'Spotify' : 'Apple Music');
 
-  function linkFor(r) {
+  // named: geef de link een eigen naam. Alleen doen als er geen tekst in
+  // staat (de uitgelichte hoes); anders botst de naam met wat je leest.
+  function linkFor(r, named) {
     const a = el('a');
     if (listenUrl(r)) external(a, listenUrl(r));
-    a.setAttribute('aria-label', `${r.title} — ${r.artists}, ${r.year}. Listen on ${listenOn(r)}`);
+    if (named) a.setAttribute('aria-label', `${r.title} — ${r.artists}, ${r.year}. Listen on ${listenOn(r)}`);
     return a;
   }
 
@@ -147,7 +149,7 @@
     clear(n);
     const r = REL[0];
     if (!r) return;
-    const a = linkFor(r);
+    const a = linkFor(r, true);
     a.append(art(r, true));
     const meta = el('div');
     meta.append(

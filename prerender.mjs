@@ -36,8 +36,11 @@ const listen = (r) => r.spotify || r.link || '';
 // De link krijgt een naam mee: bij de uitgelichte release staat er alleen
 // een hoes in, en een link zonder tekst is onbruikbaar met een voorlezer.
 const label = (r) => `${r.title} — ${r.artists}, ${r.year}. Listen on ${r.spotify ? 'Spotify' : 'Apple Music'}`;
-const link = (r, inner) => (listen(r)
-  ? `<a href="${esc(listen(r))}" target="_blank" rel="noopener" aria-label="${esc(label(r))}">${inner}</a>`
+// Alleen een naam meegeven als er geen tekst in de link staat: anders botst
+// de naam met wat je leest.
+const link = (r, inner, named) => (listen(r)
+  ? `<a href="${esc(listen(r))}" target="_blank" rel="noopener"`
+    + (named ? ` aria-label="${esc(label(r))}"` : '') + `>${inner}</a>`
   : inner);
 
 // Vaste maat: de pagina springt niet als de hoezen binnenkomen. Leeg alt,
@@ -50,7 +53,7 @@ const feature = () => {
   const r = REL[0];
   if (!r) return '';
   const sub = [r.artists, dateFmt(r.date), r.label].filter(Boolean).join(' · ');
-  return link(r, cover(r, true))
+  return link(r, cover(r, true), true)
     + `<div><div class="feature__kicker">Latest release</div>`
     + `<h3 class="feature__title">${esc(r.title)}</h3>`
     + `<p class="feature__sub">${esc(sub)}</p></div>`;
