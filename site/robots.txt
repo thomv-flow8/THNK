@@ -1,0 +1,5 @@
+# Alles mag bekeken worden.
+User-agent: *
+Allow: /
+
+Sitemap: https://thomv-flow8.github.io/THNK/sitemap.xml
