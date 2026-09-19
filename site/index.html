@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>THNK</title>
+<meta name="description" content="THNK — techno and progressive. Releases, shows and bookings.">
+<meta name="theme-color" content="#000000">
+
+<!-- Social preview -->
+<meta property="og:title" content="THNK">
+<meta property="og:description" content="Techno and progressive. Releases, shows and bookings.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/og.png">
+
+<link rel="icon" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+<!-- Voor de lancering vervangen door een zelfgehoste variant (zie README) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<a class="skip" href="#music">Skip to music</a>
+
+<header class="bar" id="bar">
+  <a class="bar__logo" href="#top" aria-label="THNK — back to top"></a>
+  <nav class="bar__nav">
+    <a href="#music">Music</a>
+    <a href="#dates">Shows</a>
+    <a href="#about">About</a>
+    <a href="#booking" class="is-cta">Booking</a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- ---------------------------------------------------------- -->
+  <!-- Hero: een IJslands landschap in lagen, van ver naar dichtbij.
+       Elke laag schuift met een eigen snelheid mee (hero.js). -->
+  <section class="hero" id="hero">
+    <div class="hero__layer hero__mountain" aria-hidden="true"></div>
+    <div class="hero__layer hero__mark"><div class="hero__logo" id="heroLogo"></div></div>
+    <div class="hero__layer hero__dunes" aria-hidden="true"></div>
+    <div class="hero__layer hero__moss" aria-hidden="true"></div>
+    <div class="hero__shade" aria-hidden="true"></div>
+    <div class="hero__front">
+      <p class="hero__tagline" id="tagline"></p>
+      <div class="hero__actions">
+        <a class="btn btn--solid" href="#music">Listen</a>
+        <a class="btn" href="#booking">Booking</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Secties wisselen om: zwart, wit, zwart, wit. De klasse is-light
+       keert alle kleurvariabelen binnen die sectie om. -->
+
+  <!-- ---------------------------------------------------------- -->
+  <section class="sec is-light" id="music">
+    <div class="sec__in">
+      <div class="sec__head">
+        <span class="sec__num">01</span>
+        <h2 class="sec__title">Music</h2>
+      </div>
+      <div class="rule" aria-hidden="true"></div>
+
+      <div class="music">
+        <div class="feature" id="feature"></div>
+        <div class="music__player" id="player"></div>
+      </div>
+
+      <div class="latest">
+        <div class="latest__head">
+          <h3 class="latest__title">Latest releases</h3>
+          <a class="btn" href="music.html">All releases</a>
+        </div>
+        <ul class="covers" id="latest"></ul>
+        <div class="platforms" id="platforms"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------------------------------------------------------- -->
+  <section class="sec" data-pattern id="dates">
+    <div class="sec__in">
+      <div class="sec__head">
+        <span class="sec__num">02</span>
+        <h2 class="sec__title">Shows</h2>
+      </div>
+      <div class="rule" aria-hidden="true"></div>
+      <div id="dateList"></div>
+    </div>
+  </section>
+
+  <!-- ---------------------------------------------------------- -->
+  <section class="sec is-light" id="about">
+    <div class="sec__in">
+      <div class="sec__head">
+        <span class="sec__num">03</span>
+        <h2 class="sec__title">About</h2>
+      </div>
+      <div class="rule" aria-hidden="true"></div>
+      <div class="about" id="about-body"></div>
+    </div>
+  </section>
+
+  <!-- ---------------------------------------------------------- -->
+  <!-- Booking: onderin een IJslandse ijsgrot als achtergrond -->
+  <section class="sec sec--cave" id="booking">
+    <div class="cave" aria-hidden="true"></div>
+    <div class="sec__in">
+      <div class="sec__head">
+        <span class="sec__num">04</span>
+        <h2 class="sec__title">Booking</h2>
+      </div>
+      <div class="rule" aria-hidden="true"></div>
+      <div class="booking" id="booking-body"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="foot__logo" id="footLogo"></div>
+  <ul class="foot__social" id="socials"></ul>
+  <p class="foot__legal">&copy; <span id="year"></span> THNK</p>
+</footer>
+
+<script src="assets/brand-icons.js"></script>
+<script src="content.js"></script>
+<script src="releases.js"></script>
+<script src="app.js"></script>
+<script src="hero.js"></script>
+</body>
+</html>

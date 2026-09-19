@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Music — THNK</title>
+<meta name="description" content="All releases by THNK — EPs, singles and remixes on Armada, Coldharbour, Songspire, Phenomena and Orange Recordings.">
+<meta name="theme-color" content="#000000">
+
+<meta property="og:title" content="Music — THNK">
+<meta property="og:description" content="All releases by THNK.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/og.png">
+
+<link rel="icon" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+<!-- Voor de lancering vervangen door een zelfgehoste variant (zie README) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="is-page">
+
+<a class="skip" href="#disco">Skip to releases</a>
+
+<header class="bar" id="bar">
+  <a class="bar__logo" href="index.html" aria-label="THNK — home"></a>
+  <nav class="bar__nav">
+    <a href="music.html" aria-current="page">Music</a>
+    <a href="index.html#dates">Shows</a>
+    <a href="index.html#about">About</a>
+    <a href="index.html#booking" class="is-cta">Booking</a>
+  </nav>
+</header>
+
+<main>
+
+  <section class="sec" data-pattern>
+    <div class="sec__in">
+      <div class="sec__head">
+        <span class="sec__num">01</span>
+        <h1 class="sec__title">Music</h1>
+      </div>
+      <div class="rule" aria-hidden="true"></div>
+      <p class="disco__intro" id="discoCount"></p>
+    </div>
+  </section>
+
+  <section class="sec is-light disco">
+    <div class="sec__in">
+      <div class="filters" id="filters" role="group" aria-label="Filter releases by year"></div>
+      <div id="disco"></div>
+      <div class="platforms" id="platforms"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="foot__logo" id="footLogo"></div>
+  <ul class="foot__social" id="socials"></ul>
+  <p class="foot__legal">&copy; <span id="year"></span> THNK</p>
+</footer>
+
+<script src="assets/brand-icons.js"></script>
+<script src="content.js"></script>
+<script src="releases.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

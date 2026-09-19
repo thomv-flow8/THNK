@@ -1,0 +1,15 @@
+# Alleen de website en de hulpscripts horen in de repo. De rest van deze map
+# (logo-ontwerp, mockups, media, experimenten) blijft lokaal.
+/*
+!/.gitignore
+!/README.md
+!/site/
+!/serve.mjs
+!/sync-releases.mjs
+!/releases.config.mjs
+
+# Hero-experimenten en ongebruikte code
+/site/_preview/
+/site/magnet.js
+/site/assets/hero/*
+!/site/assets/hero/ice-*.webp

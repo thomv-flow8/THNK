@@ -1,0 +1,507 @@
+/* ==================================================================
+   THNK — huisstijl van de site.
+   Alle kleuren, maten en afstanden staan als variabele bovenaan.
+   Verander ze daar, dan werkt het overal door.
+   ================================================================== */
+
+:root{
+  --bg:      #000000;
+  --bg-soft: #0b0b0b;
+  --fg:      #ffffff;
+  --muted:   rgba(255,255,255,.56);
+  --faint:   rgba(255,255,255,.34);
+  --line:    rgba(255,255,255,.14);
+
+  --font: "Archivo", "Helvetica Neue", Arial, sans-serif;
+
+  /* Ritme: één maat waar alle afstanden van afgeleid zijn */
+  --gap:  clamp(18px, 2.4vw, 28px);
+  --pad:  clamp(20px, 5vw, 72px);
+  --sec:  clamp(72px, 11vw, 150px);
+
+  --track: .3em;          /* letterspatiëring voor labels */
+  --radius: 999px;        /* de pill uit het logo */
+}
+
+*,*::before,*::after{ box-sizing:border-box }
+
+html{ scroll-behavior:smooth }
+@media (prefers-reduced-motion:reduce){ html{ scroll-behavior:auto } }
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--fg);
+  font-family:var(--font);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+a{ color:inherit; text-decoration:none }
+ol,ul{ list-style:none; margin:0; padding:0 }
+h1,h2,h3{ margin:0; font-weight:800; letter-spacing:-.02em; line-height:1 }
+
+.skip{
+  position:absolute; left:-9999px; top:0; z-index:100;
+  background:var(--fg); color:var(--bg); padding:12px 18px;
+}
+.skip:focus{ left:0 }
+
+:focus-visible{ outline:2px solid var(--fg); outline-offset:3px }
+
+/* ---------------------------------------------------------------- *
+   Balk bovenaan
+   ---------------------------------------------------------------- */
+.bar{
+  position:fixed; top:0; left:0; right:0; z-index:50;
+  display:flex; align-items:center; justify-content:space-between;
+  gap:var(--gap);
+  padding:14px var(--pad);
+  background:transparent;
+  transition:background .35s ease, border-color .35s ease, padding .35s ease;
+  border-bottom:1px solid transparent;
+}
+.bar.is-stuck{
+  background:rgba(0,0,0,.82);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border-bottom-color:var(--line);
+  padding-top:10px; padding-bottom:10px;
+}
+.bar__logo{ display:block; width:44px; opacity:0; transform:translateY(-4px);
+            transition:opacity .35s ease, transform .35s ease }
+.bar.is-stuck .bar__logo{ opacity:1; transform:none }
+/* Op subpagina's staat er geen groot logo in beeld, dus daar meteen tonen. */
+.is-page .bar__logo{ opacity:1; transform:none }
+.bar__nav a[aria-current="page"]{ color:var(--fg) }
+.bar__logo svg{ display:block; width:100%; height:auto }
+
+.bar__nav{ display:flex; align-items:center; gap:clamp(14px,2.4vw,30px) }
+.bar__nav a{
+  font-size:11px; font-weight:600; text-transform:uppercase;
+  letter-spacing:var(--track); color:var(--muted);
+  transition:color .2s ease;
+}
+.bar__nav a:hover{ color:var(--fg) }
+.bar__nav .is-cta{
+  color:var(--fg); border:1px solid var(--line);
+  padding:8px 16px; border-radius:var(--radius);
+}
+.bar__nav .is-cta:hover{ background:var(--fg); color:var(--bg); border-color:var(--fg) }
+
+@media (max-width:560px){
+  .bar__nav a:not(.is-cta){ display:none }
+}
+
+/* ---------------------------------------------------------------- *
+   Hero
+   ---------------------------------------------------------------- */
+/* Een IJslands landschap in lagen: lucht en bergen (zwart-wit), het logo,
+   zwarte duinen met gras en vooraan mos. hero.js schuift elke laag met
+   een eigen snelheid mee bij scrollen en muis — dat geeft de diepte. */
+.hero{
+  position:relative; overflow:hidden;
+  height:100svh; min-height:560px; background:#0b0b0b;
+}
+.hero__layer{ position:absolute; inset:0; will-change:transform; background-repeat:no-repeat }
+
+/* Groter dan het scherm, zodat er bij het schuiven nooit een rand in
+   beeld komt. Iets gedempt, zodat het witte logo er goed op staat. */
+.hero__mountain{
+  inset:-10% -4% -4%;
+  background-image:url(assets/hero/ice-mountain.webp);
+  background-size:cover; background-position:center 55%;
+  filter:brightness(.78) contrast(1.05);
+}
+
+/* Duinen en mos schalen met de schermhoogte, niet met de breedte: zo
+   staan ze op elk scherm op dezelfde hoogte en blijft het logo vrij. Op
+   heel brede schermen rekt de foto iets uit (max. ±17%), op smalle
+   schermen valt er zijkant weg. */
+.hero__dunes, .hero__moss{
+  right:auto; bottom:auto; left:50%;
+  width:var(--w); height:var(--h); margin-left:calc(var(--w) / -2);
+  background-size:100% 100%;
+}
+.hero__dunes{
+  --h:max(100svh, calc(112vw / 2.1)); --w:max(112vw, calc(var(--h) * 1.55));
+  top:19svh; background-image:url(assets/hero/ice-dunes.webp);
+  filter:brightness(.8) saturate(.8);
+}
+.hero__moss{
+  --h:max(104svh, calc(116vw / 2.1)); --w:max(116vw, calc(var(--h) * 1.55));
+  top:12svh; background-image:url(assets/hero/ice-moss.webp);
+  filter:brightness(.68) saturate(.78);
+}
+
+/* Logo gecentreerd op 36% van de hoogte (vlak van 0 tot 72%). Geen
+   transform op het logo zelf: die gebruikt de intro-animatie al. */
+.hero__mark{ bottom:28%; display:flex; align-items:center; justify-content:center; pointer-events:none }
+
+/* Bovenin wat donkerder voor de navigatie, onderin naar zwart */
+.hero__shade{
+  position:absolute; inset:0; z-index:9; pointer-events:none;
+  background:
+    linear-gradient(to bottom, rgba(0,0,0,.45), rgba(0,0,0,0) 22%),
+    linear-gradient(to top, #000 0, rgba(0,0,0,.6) 16%, rgba(0,0,0,0) 38%);
+}
+
+.hero__front{
+  position:absolute; left:0; right:0; bottom:7%; z-index:10;
+  display:flex; flex-direction:column; align-items:center; gap:22px;
+  text-align:center; padding:0 var(--pad);
+}
+.hero__front .hero__tagline{ text-shadow:0 1px 16px rgba(0,0,0,.95), 0 0 2px rgba(0,0,0,.6) }
+
+/* ---------------------------------------------------------------- *
+   Achtergrondpatroon — het liggende streepje uit het logo in vier
+   standen. Kleur volgt de sectie, dus op wit wordt het vanzelf zwart.
+   ---------------------------------------------------------------- */
+.pat{
+  position:absolute; inset:0; width:100%; height:100%;
+  color:var(--fg); opacity:.085; pointer-events:none;
+}
+.pat--fade{
+  /* Vaste hoogte (niet %) voor het vervagen: secties verschillen sterk in
+     lengte, zo verdwijnt het patroon overal na hetzelfde stuk. */
+  opacity:.055;
+  -webkit-mask-image:linear-gradient(to bottom, #000 0, rgba(0,0,0,.4) 260px, transparent 640px);
+          mask-image:linear-gradient(to bottom, #000 0, rgba(0,0,0,.4) 260px, transparent 640px);
+}
+.hero__logo{ width:min(52vw, 340px) }
+.hero__logo svg{ display:block; width:100%; height:auto }
+
+.hero__tagline{
+  margin:0; max-width:34ch;
+  font-size:clamp(15px,1.5vw,19px); color:var(--muted);
+}
+
+.hero__actions{ display:flex; flex-wrap:wrap; gap:14px; justify-content:center }
+
+.btn{
+  display:inline-block; padding:15px 34px; border-radius:var(--radius);
+  border:1px solid var(--line);
+  font-size:12px; font-weight:600; text-transform:uppercase;
+  letter-spacing:var(--track);
+  transition:background .2s ease, color .2s ease, border-color .2s ease;
+}
+.btn:hover{ border-color:var(--fg) }
+.btn--solid{ background:var(--fg); color:var(--bg); border-color:var(--fg) }
+.btn--solid:hover{ background:transparent; color:var(--fg) }
+
+/* ---------------------------------------------------------------- *
+   Secties
+   ---------------------------------------------------------------- */
+/* De sectie zelf loopt van rand tot rand (voor de achtergrondkleur);
+   de inhoud erbinnen blijft gecentreerd en beperkt van breedte. */
+.sec{
+  padding:var(--sec) var(--pad); background:var(--bg); color:var(--fg);
+  position:relative; overflow:hidden;   /* houdt het achtergrondpatroon binnen */
+}
+.sec__in{ max-width:1240px; margin:0 auto; position:relative }
+
+/* Omkeren: alle kleurvariabelen binnen deze sectie draaien om, waardoor
+   knoppen, lijnen en vlakken vanzelf meegaan. */
+.sec.is-light{
+  --bg:      #ffffff;
+  --bg-soft: #f2f2f2;
+  --fg:      #000000;
+  --muted:   rgba(0,0,0,.6);
+  --faint:   rgba(0,0,0,.42);
+  --line:    rgba(0,0,0,.16);
+}
+
+.sec__head{ display:flex; align-items:baseline; gap:clamp(14px,2vw,26px) }
+.sec__num{
+  font-size:11px; font-weight:600; letter-spacing:var(--track);
+  color:var(--faint);
+}
+.sec__title{ font-size:clamp(34px,7vw,76px); text-transform:uppercase }
+
+/* De streep uit het logo, als scheiding tussen kop en inhoud */
+.rule{
+  height:5px; border-radius:var(--radius); background:var(--fg);
+  margin:clamp(22px,3vw,34px) 0 clamp(34px,5vw,58px);
+}
+
+/* ---------------------------------------------------------------- *
+   Muziek
+   ---------------------------------------------------------------- */
+.music{ display:grid; gap:clamp(28px,4vw,52px); grid-template-columns:1fr }
+@media (min-width:900px){ .music{ grid-template-columns:minmax(0,1fr) minmax(0,1fr); align-items:start } }
+
+/* De hoogte bepaalt hoeveel tracks Spotify toont: 480 px geeft er vijf in
+   beeld. De rest van de top 10 is binnen de speler te scrollen. */
+.music__player{ --player-h:480px }
+
+.music__player iframe{
+  width:100%; height:var(--player-h); border:0; border-radius:16px; display:block;
+  background:#0b0b0b;
+}
+/* De Spotify-speler is zelf donker. Op een witte sectie zetten we hem in
+   een zwarte afgeronde kaart — dezelfde vorm als het embleem, dus het
+   wordt een merkelement in plaats van een vlek. */
+.sec.is-light .music__player{
+  background:#000; padding:14px; border-radius:22px;
+}
+
+.platforms{ display:flex; flex-wrap:wrap; gap:10px; margin-top:clamp(24px,3vw,34px) }
+.platforms a{
+  display:inline-flex; align-items:center; gap:9px;
+  font-size:11px; font-weight:600; text-transform:uppercase;
+  letter-spacing:var(--track); color:var(--muted);
+  border:1px solid var(--line); padding:11px 18px; border-radius:var(--radius);
+  transition:border-color .2s ease, color .2s ease;
+}
+.platforms a:hover{ border-color:var(--fg); color:var(--fg) }
+/* Merkicoontjes volgen currentColor, dus ze keren mee om op een witte
+   sectie. Allemaal even groot, zodat de rij rustig blijft. */
+.platforms svg{ width:15px; height:15px; flex:0 0 auto }
+
+/* ---------------------------------------------------------------- *
+   Hoezen — grijs in rust, in kleur bij interactie. De site blijft zo
+   zwart-wit; de kleur uit de oude hoezen komt pas als je ernaar kijkt.
+   ---------------------------------------------------------------- */
+.art{
+  position:relative; aspect-ratio:1; border-radius:14px; overflow:hidden;
+  background:var(--bg-soft);
+}
+/* Dunne rand óver de hoes heen: witte hoezen verdwijnen anders in een
+   witte sectie en lijken dan losse tekst in plaats van een vierkant. */
+.art::after{
+  content:''; position:absolute; inset:0; border-radius:inherit;
+  box-shadow:inset 0 0 0 1px var(--line); pointer-events:none;
+}
+.art img{
+  width:100%; height:100%; object-fit:cover; display:block;
+  filter:grayscale(1) contrast(1.06);
+  transition:filter .5s ease, transform .7s cubic-bezier(.16,1,.3,1);
+}
+/* Met muis: kleur bij hover. Op een touchscreen bestaat hover niet; daar
+   kleurt een hoes zodra hij midden in beeld staat (is-lit, via app.js). */
+@media (hover:hover){
+  a:hover > .art img, a:focus-visible > .art img{ filter:none; transform:scale(1.035) }
+}
+.is-lit .art img{ filter:none }
+
+/* --- Uitgelichte (nieuwste) release ----------------------------- */
+.feature{ display:flex; flex-direction:column; gap:clamp(18px,2.4vw,26px) }
+.feature > a{ display:block }
+.feature .art{ border-radius:20px }
+.feature__kicker{
+  font-size:11px; font-weight:600; text-transform:uppercase;
+  letter-spacing:var(--track); color:var(--faint);
+}
+.feature__title{
+  margin:6px 0 0; font-size:clamp(30px,4.4vw,52px);
+  font-weight:800; line-height:1.02; letter-spacing:-.025em; text-transform:uppercase;
+}
+.feature__sub{ margin:8px 0 0; font-size:14px; color:var(--muted) }
+.feature__actions{ display:flex; flex-wrap:wrap; gap:12px; margin-top:4px }
+
+/* --- Raster ------------------------------------------------------- */
+.covers{ display:grid; gap:clamp(16px,2.2vw,28px); grid-template-columns:repeat(2,minmax(0,1fr)) }
+@media (min-width:700px){ .covers{ grid-template-columns:repeat(3,minmax(0,1fr)) } }
+@media (min-width:1100px){ .disco .covers{ grid-template-columns:repeat(4,minmax(0,1fr)) } }
+.covers > li > a{ display:block }
+.cover__title{ margin-top:12px; font-size:15px; font-weight:600; line-height:1.3 }
+.cover__sub{ margin-top:3px; font-size:12px; color:var(--muted); line-height:1.4 }
+
+/* --- "Latest releases" op de homepage ---------------------------- */
+.latest{ margin-top:clamp(56px,7vw,96px) }
+.latest__head{
+  display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between;
+  gap:var(--gap); margin-bottom:clamp(22px,3vw,32px);
+}
+.latest__title{ font-size:clamp(20px,2.4vw,28px); text-transform:uppercase }
+
+/* --- Discografie: filter per jaar (music.html) ------------------- */
+.filters{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:clamp(34px,4.5vw,56px) }
+.chip{
+  display:inline-flex; align-items:center; gap:8px; cursor:pointer;
+  font:inherit; font-size:11px; font-weight:600; text-transform:uppercase;
+  letter-spacing:var(--track); color:var(--muted); background:none;
+  border:1px solid var(--line); border-radius:var(--radius); padding:10px 16px;
+  transition:border-color .2s ease, color .2s ease, background .2s ease;
+}
+.chip span{ color:var(--faint); letter-spacing:.06em }
+.chip:hover{ border-color:var(--fg); color:var(--fg) }
+.chip[aria-pressed="true"]{ background:var(--fg); color:var(--bg); border-color:var(--fg) }
+.chip[aria-pressed="true"] span{ color:inherit; opacity:.6 }
+
+.disco__year + .disco__year{ margin-top:clamp(52px,6.5vw,88px) }
+.disco__label{
+  margin:0 0 clamp(18px,2.4vw,26px); font-size:clamp(30px,4.4vw,48px);
+  font-weight:800; letter-spacing:-.02em;
+}
+.disco__intro{ margin:0; max-width:52ch; color:var(--muted) }
+
+/* ---------------------------------------------------------------- *
+   Agenda
+   ---------------------------------------------------------------- */
+.date{
+  display:flex; flex-wrap:wrap; align-items:baseline; gap:var(--gap);
+  padding:22px 0; border-bottom:1px solid var(--line);
+}
+.date:first-child{ border-top:1px solid var(--line) }
+.date__when{ font-size:12px; letter-spacing:.06em; color:var(--faint); flex:0 0 7.5rem }
+.date__what{ flex:1 1 220px }
+.date__city{ font-size:clamp(18px,2.2vw,26px); font-weight:800; text-transform:uppercase }
+.date__venue{ font-size:13px; color:var(--muted) }
+
+.empty{
+  border:1px solid var(--line); border-radius:18px;
+  padding:clamp(28px,5vw,52px);
+  display:flex; flex-direction:column; gap:16px; align-items:flex-start;
+}
+.empty p{ margin:0; color:var(--muted); max-width:46ch }
+
+/* Eerdere optredens: zelfde rijen als de agenda, iets ingetogener */
+.past{ margin-top:clamp(40px,6vw,64px) }
+.past__label{ margin:0 0 16px; font-size:11px; font-weight:600; text-transform:uppercase;
+              letter-spacing:var(--track); color:var(--muted) }
+.past__link{
+  font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:var(--track);
+  color:var(--muted); border-bottom:1px solid var(--line); padding-bottom:3px;
+  transition:color .2s ease, border-color .2s ease;
+}
+.past__link:hover{ color:var(--fg); border-bottom-color:var(--fg) }
+
+/* ---------------------------------------------------------------- *
+   Over
+   ---------------------------------------------------------------- */
+.about{ display:grid; gap:clamp(30px,5vw,64px); grid-template-columns:1fr }
+@media (min-width:900px){ .about{ grid-template-columns:1.25fr .75fr; align-items:start } }
+
+.about__text p{ margin:0 0 1.1em; font-size:clamp(16px,1.7vw,19px); max-width:56ch; color:var(--muted) }
+.about__text p:first-child{ color:var(--fg) }
+
+.stats{ display:grid; gap:2px; border:1px solid var(--line); border-radius:18px; overflow:hidden }
+.stat{ padding:22px 26px; background:var(--bg-soft) }
+.stat__value{ font-size:clamp(26px,3.4vw,40px); font-weight:800; letter-spacing:-.02em; font-variant-numeric:tabular-nums }
+.stat__label{ font-size:11px; text-transform:uppercase; letter-spacing:var(--track); color:var(--muted) }
+
+.about__photo img{ width:100%; height:auto; display:block; border-radius:18px }
+
+/* Supported by: de namen als één doorlopende regel, met het streepje uit
+   het logo ertussen. Ze komen één voor één binnen (--i = volgorde). */
+.support{ margin-top:clamp(48px,7vw,88px); padding-top:clamp(28px,4vw,40px); border-top:1px solid var(--line) }
+.support__label{ margin:0 0 18px; font-size:11px; font-weight:600; text-transform:uppercase;
+                 letter-spacing:var(--track); color:var(--muted) }
+.support__names{ display:flex; flex-wrap:wrap; align-items:center; row-gap:10px;
+                 font-size:clamp(20px,2.6vw,34px); font-weight:800; letter-spacing:-.02em; line-height:1.15 }
+.support__names li{
+  display:flex; align-items:center;
+  opacity:0; transform:translateY(10px);
+  transition:opacity .6s ease, transform .6s cubic-bezier(.16,1,.3,1);
+  transition-delay:calc(var(--i, 0) * 70ms + 150ms);
+}
+.support__names li.is-first::before{ display:none }
+.support__names li + li::before{
+  content:''; display:inline-block; width:.62em; height:.12em; border-radius:999px;
+  background:currentColor; opacity:.28; margin:0 .42em;
+}
+.support.is-in .support__names li{ opacity:1; transform:none }
+.support__more{
+  display:inline-block; margin-top:22px; font-size:12px; font-weight:600;
+  text-transform:uppercase; letter-spacing:var(--track); color:var(--muted);
+  border-bottom:1px solid var(--line); padding-bottom:4px; transition:color .2s ease, border-color .2s ease;
+}
+.support__more:hover{ color:var(--fg); border-bottom-color:var(--fg) }
+body.is-shot .support__names li{ opacity:1; transform:none; transition:none }
+@media (prefers-reduced-motion:reduce){ .support__names li{ opacity:1; transform:none; transition:none } }
+
+/* ---------------------------------------------------------------- *
+   Boekingen
+   ---------------------------------------------------------------- */
+.booking{ display:flex; flex-direction:column; gap:clamp(20px,3vw,30px); align-items:flex-start }
+
+/* Booking staat in een ijsgrot: blauw ijs boven, ruwe rotsen onder.
+   Bovenaan loopt het beeld naar zwart (titel en tekst blijven leesbaar),
+   onderaan weer naar zwart richting de voet. Het beeld is groter dan de
+   sectie en zakt bij scrollen iets trager mee (hero.js). */
+.sec--cave{ min-height:100svh; background:#000 }
+.cave{
+  position:absolute; inset:-10% 0; will-change:transform;
+  background:url(assets/hero/ice-cave.webp) center 58% / cover no-repeat;
+  /* Minder fel blauw, meer grijsblauw: past bij de zwart-witte rest */
+  filter:saturate(.38) brightness(.92);
+}
+.cave::after{
+  content:''; position:absolute; inset:0;
+  background:
+    linear-gradient(to bottom, #000 10%, rgba(0,0,0,.6) 32%, rgba(0,0,0,.08) 58%, rgba(0,0,0,.25) 80%, #000 100%),
+    linear-gradient(to right, rgba(0,0,0,.45), rgba(0,0,0,0) 55%);
+}
+.booking__mail{
+  font-size:clamp(24px,5.2vw,54px); font-weight:800; letter-spacing:-.025em;
+  word-break:break-word; line-height:1.05;
+  border-bottom:3px solid var(--line); padding-bottom:6px;
+  transition:border-color .2s ease;
+}
+.booking__mail:hover{ border-bottom-color:var(--fg) }
+.booking__note{ margin:0; color:var(--muted) }
+
+/* ---------------------------------------------------------------- *
+   Footer
+   ---------------------------------------------------------------- */
+.foot{
+  border-top:1px solid var(--line);
+  padding:clamp(40px,6vw,72px) var(--pad);
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between;
+  gap:var(--gap);
+  max-width:1240px; margin:0 auto;
+}
+.foot__logo{ width:64px }
+.foot__logo svg{ display:block; width:100%; height:auto }
+.foot__social{ display:flex; flex-wrap:wrap; gap:clamp(14px,2.4vw,28px) }
+.foot__social a{
+  display:inline-flex; align-items:center; gap:8px;
+  font-size:11px; font-weight:600; text-transform:uppercase;
+  letter-spacing:var(--track); color:var(--muted);
+  transition:color .2s ease;
+}
+.foot__social a:hover{ color:var(--fg) }
+.foot__social svg{ width:14px; height:14px; flex:0 0 auto }
+.foot__legal{ margin:0; font-size:11px; letter-spacing:var(--track); color:var(--faint);
+              text-transform:uppercase }
+
+/* ---------------------------------------------------------------- *
+   Opnamestand — voeg ?shot toe aan de URL om de hele pagina in één
+   beeld te kunnen vastleggen (voor previews en screenshots).
+   ---------------------------------------------------------------- */
+body.is-shot .hero{ height:900px }
+/* In de opnamestand is het venster extra hoog, dus svh klopt dan niet:
+   dezelfde maten als op een scherm van 900 hoog, in pixels. */
+body.is-shot .hero__dunes{ --h:900px; top:171px }
+body.is-shot .hero__moss{ --h:936px; top:108px }
+body.is-shot .sec--cave{ min-height:900px }
+body.is-shot .reveal,
+body.is-shot .rule-in{ opacity:1; transform:none; transition:none }
+
+/* ---------------------------------------------------------------- *
+   Binnenkomen — onderdelen komen één voor één op. De vertraging per
+   onderdeel staat in --d en wordt door app.js gezet.
+   ---------------------------------------------------------------- */
+.reveal{
+  opacity:0; transform:translateY(22px);
+  transition:opacity .85s cubic-bezier(.16,1,.3,1), transform .85s cubic-bezier(.16,1,.3,1);
+  transition-delay:var(--d,0ms);
+  will-change:opacity, transform;
+}
+.reveal.is-in{ opacity:1; transform:none }
+
+/* De streep groeit vanuit het midden open — dezelfde beweging als in
+   de logo-animatie. */
+.rule-in{
+  transform:scaleX(0); transform-origin:center;
+  transition:transform .95s cubic-bezier(.16,1,.3,1);
+  transition-delay:var(--d,0ms);
+}
+.rule-in.is-in{ transform:scaleX(1) }
+
+@media (prefers-reduced-motion:reduce){
+  .reveal,.rule-in{ opacity:1; transform:none; transition:none }
+}
