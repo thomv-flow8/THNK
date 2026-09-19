@@ -412,6 +412,37 @@
     window.addEventListener('scroll', onScroll, { passive: true });
   });
 
+  /* --- Waar ben ik? ------------------------------------------------- *
+   * De link in de balk van de sectie die je aan het lezen bent licht op.
+   * Een sectie telt zodra hij het midden van het scherm kruist; boven in
+   * de hero licht er niets op. Alleen op de homepage: op de muziekpagina
+   * staat de actieve pagina al aangegeven.                              */
+  if (!document.body.classList.contains('is-page')) {
+    const links = new Map();
+    document.querySelectorAll('.bar__nav a[href^="#"]').forEach((a) => {
+      const sec = document.querySelector(a.getAttribute('href'));
+      if (sec) links.set(sec, a);
+    });
+
+    if (links.size) {
+      // De laatste sectie waarvan de bovenkant al voorbij 40% van het scherm
+      // is. Werkt ook bij een korte sectie (Shows), die een meting midden
+      // in beeld zou kunnen missen.
+      let pending = false;
+      const mark = () => {
+        pending = false;
+        const line = window.scrollY + window.innerHeight * 0.4;
+        let here = null;
+        links.forEach((a, s) => { if (s.offsetTop <= line) here = s; });
+        links.forEach((a, s) => a.classList.toggle('is-here', s === here));
+      };
+      const request = () => { if (!pending) { pending = true; requestAnimationFrame(mark); } };
+      window.addEventListener('scroll', request, { passive: true });
+      window.addEventListener('resize', request);
+      mark();
+    }
+  }
+
   /* --- Binnenkomen bij het scrollen -------------------------------- *
    * Niet de sectie zelf vloeit in maar de onderdelen erin, één voor één.
    * De streep onder de kop groeit vanuit het midden open — dezelfde
