@@ -293,22 +293,11 @@
       li.style.setProperty('--i', i);
       list.append(li);
     });
-    box.append(list);
+    const clip = el('div', 'support__clip');   // knipt het streepje vóór elke regel weg
+    clip.append(list);
+    box.append(clip);
     if (sb.more && sb.url) box.append(external(el('a', 'support__more', `${sb.more} →`), sb.url));
     about.after(box);
-
-    // Geen streepje vooraan een nieuwe regel: markeer de eerste naam van
-    // elke regel (opnieuw als de breedte verandert).
-    const markLines = () => {
-      let top = null;
-      [...list.children].forEach((li) => {
-        const t = li.offsetTop;
-        li.classList.toggle('is-first', t !== top);
-        top = t;
-      });
-    };
-    markLines();
-    new ResizeObserver(markLines).observe(list);
   });
 
   /* --- Over -------------------------------------------------------- */
