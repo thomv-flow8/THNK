@@ -2,6 +2,7 @@
 # (logo-ontwerp, mockups, media, experimenten) blijft lokaal.
 /*
 !/.gitignore
+!/.github/
 !/README.md
 !/site/
 !/serve.mjs
