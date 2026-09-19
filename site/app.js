@@ -176,7 +176,7 @@
     const groups = years.map((y) => {
       const sec = el('section', 'disco__year');
       sec.dataset.year = y;
-      sec.append(el('h3', 'disco__label', String(y)));
+      sec.append(el('h2', 'disco__label', String(y)));
       const ul = el('ul', 'covers');
       REL.filter((r) => r.year === y).forEach((r) => ul.append(card(r)));
       sec.append(ul);

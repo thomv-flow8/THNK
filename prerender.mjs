@@ -37,24 +37,27 @@ const link = (r, inner) => (listen(r)
   ? `<a href="${esc(listen(r))}" target="_blank" rel="noopener">${inner}</a>`
   : inner);
 
-const cover = (r) => `<div class="art"><img src="${esc(r.cover)}" alt="${esc(r.title)}" loading="lazy"></div>`;
+// Vaste maat: de pagina springt niet als de hoezen binnenkomen. Leeg alt,
+// want de titel staat er in tekst naast. De eerste paar laden meteen.
+const cover = (r, eager) => `<div class="art"><img src="${esc(r.cover)}" width="600" height="600" alt=""`
+  + (eager ? ' fetchpriority="high"' : ' loading="lazy"') + '></div>';
 
 /* --- De blokken ---------------------------------------------------- */
 const feature = () => {
   const r = REL[0];
   if (!r) return '';
   const sub = [r.artists, dateFmt(r.date), r.label].filter(Boolean).join(' · ');
-  return link(r, cover(r))
+  return link(r, cover(r, true))
     + `<div><div class="feature__kicker">Latest release</div>`
     + `<h3 class="feature__title">${esc(r.title)}</h3>`
     + `<p class="feature__sub">${esc(sub)}</p></div>`;
 };
 
-const card = (r) => `<li>${link(r, cover(r)
+const card = (r, eager) => `<li>${link(r, cover(r, eager)
   + `<div class="cover__title">${esc(r.title)}</div>`
   + `<div class="cover__meta">${esc(r.year)} · ${esc(r.kind || '')}</div>`)}</li>`;
 
-const latest = () => REL.slice(1, 7).map(card).join('');
+const latest = () => REL.slice(1, 7).map((r, i) => card(r, i < 3)).join('');
 
 const about = () => {
   const bio = (CONTENT.bio || []).map((p) => `<p>${esc(p)}</p>`).join('');
@@ -112,8 +115,10 @@ const socials = () => (CONTENT.socials || []).filter((s) => s.url)
 
 const disco = () => {
   const years = [...new Set(REL.map((r) => r.year))];
-  return years.map((y) => `<section><h3 class="disco__label">${esc(y)}</h3><ul class="covers">`
-    + REL.filter((r) => r.year === y).map(card).join('') + `</ul></section>`).join('');
+  // H2, want de paginakop is een H1: koppen mogen geen niveau overslaan
+  return years.map((y, yi) => `<section><h2 class="disco__label">${esc(y)}</h2><ul class="covers">`
+    + REL.filter((r) => r.year === y).map((r, i) => card(r, yi === 0 && i < 3)).join('')
+    + `</ul></section>`).join('');
 };
 
 /* --- In de pagina zetten ------------------------------------------- *
