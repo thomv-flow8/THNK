@@ -78,7 +78,9 @@
   document.querySelectorAll('.sec.is-light').forEach((s) => addPattern(s, 'pat--fade'));
 
   /* --- Kop, hero en voet ------------------------------------------- */
-  on('#heroLogo', (n) => n.append(logoImg('THNK')));
+  // Het hero-logo staat al in de HTML (zo is de H1 ook zonder JavaScript
+  // gevuld); alleen aanvullen als het er niet is.
+  on('#heroLogo', (n) => { if (!n.querySelector('img')) n.append(logoImg('THNK')); });
   on('.bar__logo', (n) => n.append(logoImg('THNK')));
   on('#footLogo', (n) => n.append(logoImg('THNK')));
   on('#tagline', (n) => { n.textContent = CONTENT.tagline; });
