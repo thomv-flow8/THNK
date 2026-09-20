@@ -235,14 +235,18 @@ h1,h2,h3{ margin:0; font-weight:800; letter-spacing:-.02em; line-height:1 }
   position:relative; overflow:hidden;
   /* Hoog genoeg voor de muur van kolommen; op een laag scherm blijft er
      nog genoeg van de hero zichtbaar. */
-  height:clamp(520px, 88vh, 980px);
+  /* Hoogte volgt de breedte (het beeld is 16:9), zodat de hele waterval
+     in beeld staat. Op smalle schermen een vaste minimumhoogte; daar valt
+     er links en rechts wat weg. */
+  height:clamp(520px, calc(100vw / 1.788), 1200px);
   background:#000;
 }
-/* Het beeld is groter dan de band, zodat het kan meebewegen met de muis
-   en het scrollen zonder dat er een rand in beeld komt (hero.js). */
+/* Het beeld is net iets ruimer dan de band, zodat het kan meebewegen met
+   het scrollen zonder dat er een rand in beeld komt (hero.js). Niet meer
+   dan nodig: anders valt de opening bovenaan de waterval weg. */
 .flow__img{
-  position:absolute; inset:-7% -5%;
-  background:url(assets/hero/ice-fall.webp) center bottom / cover no-repeat;
+  position:absolute; left:-2%; right:-2%; top:-34px; bottom:-34px;
+  background:url(assets/hero/ice-fall.webp) center center / cover no-repeat;
   will-change:transform;
 }
 /* Touchscreens: hetzelfde meebewegen, maar door de browser zelf gedaan —
@@ -259,8 +263,10 @@ h1,h2,h3{ margin:0; font-weight:800; letter-spacing:-.02em; line-height:1 }
   }
 }
 @keyframes flow-drift{
-  from{ transform:translate3d(0, 4%, 0) }
-  to  { transform:translate3d(0, -4%, 0) }
+  /* In pixels, en binnen de 34px die het beeld over heeft: anders komt
+     de rand van de foto in beeld. */
+  from{ transform:translate3d(0, 30px, 0) }
+  to  { transform:translate3d(0, -30px, 0) }
 }
 /* Bovenaan naar zwart (de hero), onderaan naar wit (Music): zo zie je
    nergens een rand van de foto. */
