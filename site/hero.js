@@ -61,6 +61,44 @@ const MOUSE = matchMedia('(hover: hover) and (pointer: fine)').matches;
   new IntersectionObserver((e) => (e[0].isIntersecting ? start() : stop())).observe(host);
 })();
 
+/* --- Waterval tussen hero en Music --------------------------------- *
+ * Dezelfde beweging als in de hero: met de muis schuift het beeld een
+ * paar pixels opzij, en bij het scrollen zakt het iets mee. Het beeld is
+ * ruimer dan de band, dus er komt nooit een rand in beeld.
+ * Alleen met muis; op een touchscreen doet CSS het (styles.css).      */
+(function () {
+  'use strict';
+
+  const band = document.getElementById('flow');
+  const img = band && band.querySelector('.flow__img');
+  if (!img) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches
+    || document.body.classList.contains('is-shot')
+    || !MOUSE) return;
+
+  let mx = 0, cur = 0, raf = 0;
+
+  function apply() {
+    const r = band.getBoundingClientRect();
+    // -1 (band komt net in beeld) … 1 (band gaat net uit beeld)
+    const p = (r.top + r.height / 2 - window.innerHeight / 2) / (window.innerHeight + r.height) * 2;
+    cur += (mx - cur) * 0.08;                    // muis zacht naijlen
+    img.style.transform =
+      `translate3d(${(cur * 14).toFixed(2)}px, ${(p * -22).toFixed(1)}px, 0)`;
+    raf = requestAnimationFrame(apply);
+  }
+  const start = () => { if (!raf) raf = requestAnimationFrame(apply); };
+  const stop = () => { cancelAnimationFrame(raf); raf = 0; };
+
+  band.addEventListener('pointermove', (e) => {
+    const r = band.getBoundingClientRect();
+    mx = ((e.clientX - r.left) / r.width - 0.5) * 2;      // -1 … 1
+  });
+  band.addEventListener('pointerleave', () => { mx = 0; });
+
+  new IntersectionObserver((e) => (e[0].isIntersecting ? start() : stop())).observe(band);
+})();
+
 /* --- IJsgrot achter Booking ---------------------------------------- *
  * Het grotbeeld schuift trager dan de pagina: het lijkt verder weg te
  * liggen dan de tekst ervoor. Maximaal 10% van de sectiehoogte, precies

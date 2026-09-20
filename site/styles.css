@@ -225,6 +225,51 @@ h1,h2,h3{ margin:0; font-weight:800; letter-spacing:-.02em; line-height:1 }
 }
 
 /* ---------------------------------------------------------------- *
+   Overgang hero → Music: de waterval
+   ---------------------------------------------------------------- *
+   Een band tussen de twee secties: bovenin zwarte basaltkolommen, die
+   naadloos aansluiten op de donkere onderkant van de hero, en onderin
+   wit schuim dat doorloopt in de witte Music-sectie. Geen scrolltruc,
+   gewoon beeld — dus niets dat kan haperen of verspringen.            */
+.flow{
+  position:relative; overflow:hidden;
+  height:clamp(380px, 68vh, 760px);
+  background:#000;
+}
+/* Het beeld is groter dan de band, zodat het kan meebewegen met de muis
+   en het scrollen zonder dat er een rand in beeld komt (hero.js). */
+.flow__img{
+  position:absolute; inset:-7% -5%;
+  background:url(assets/hero/ice-fall.webp) center bottom / cover no-repeat;
+  will-change:transform;
+}
+/* Touchscreens: hetzelfde meebewegen, maar door de browser zelf gedaan —
+   dat loopt gelijk met het scrollen en hapert niet. */
+@supports (animation-timeline: view()){
+  @media (hover:none), (pointer:coarse){
+    @media (prefers-reduced-motion:no-preference){
+      .flow__img{
+        will-change:auto;
+        animation:flow-drift linear both;
+        animation-timeline:view();
+      }
+    }
+  }
+}
+@keyframes flow-drift{
+  from{ transform:translate3d(0, 4%, 0) }
+  to  { transform:translate3d(0, -4%, 0) }
+}
+/* Bovenaan naar zwart (de hero), onderaan naar wit (Music): zo zie je
+   nergens een rand van de foto. */
+.flow::after{
+  content:''; position:absolute; inset:0;
+  background:
+    linear-gradient(to bottom, #000 0, rgba(0,0,0,0) 26%),
+    linear-gradient(to top, #fff 0, rgba(255,255,255,0) 14%);
+}
+
+/* ---------------------------------------------------------------- *
    Achtergrondpatroon — het liggende streepje uit het logo in vier
    standen. Kleur volgt de sectie, dus op wit wordt het vanzelf zwart.
    ---------------------------------------------------------------- */
