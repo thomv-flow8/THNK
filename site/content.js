@@ -19,12 +19,14 @@ const CONTENT = {
 
   /* --- Cijfers voor promotors -------------------------------------- */
   // Houd het op "meer dan X", dan blijft het kloppen als het groeit.
+  // icon: 'play', 'headphones' of 'disc' — de vormen staan in
+  // assets/brand-icons.js. Laat icon weg en er staat alleen tekst.
   stats: [
-    { value: '1.3M+', label: 'streams on Rush' },
-    { value: '7,000+', label: 'monthly listeners' },
+    { value: '1.3M+', label: 'streams on Rush', icon: 'play' },
+    { value: '7,000+', label: 'monthly listeners', icon: 'headphones' },
     // Armada (incl. Electronic Elements en Statement!), Orange Recordings,
     // Songspire, Coldharbour en Phenomena.
-    { value: '5', label: 'labels released on' },
+    { value: '5', label: 'labels released on', icon: 'disc' },
   ],
 
   /* --- Supported by ------------------------------------------------ */
@@ -102,6 +104,9 @@ const CONTENT = {
     + 'Phenomena and Orange Recordings, alongside artists including Melvin Spix '
     + 'and Solid Stone. In 2018 he played the Progressive Stage at '
     + 'A State Of Trance 850 in Utrecht.',
+    'His tracks have been played by Armin van Buuren, Paul van Dyk, Ferry '
+    + 'Corsten, Markus Schulz and Richie Hawtin, on shows including A State Of '
+    + 'Trance, VONYC Sessions, Global DJ Broadcast and Future Sound Of Egypt.',
     'After a break, he is picking it back up: new music, new shows.',
   ],
 

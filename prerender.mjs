@@ -24,6 +24,7 @@ const read = (file, name) => {
 };
 const CONTENT = read('content.js', 'CONTENT');
 const REL = read('releases.js', 'RELEASES');
+const ICONS = read('assets/brand-icons.js', 'STAT_ICONS');
 
 /* --- Hulpjes ------------------------------------------------------- */
 const esc = (s) => String(s ?? '')
@@ -67,9 +68,13 @@ const latest = () => REL.slice(1, 7).map((r, i) => card(r, i < 3)).join('');
 
 const about = () => {
   const bio = (CONTENT.bio || []).map((p) => `<p>${esc(p)}</p>`).join('');
+  const icon = (name) => (ICONS[name]
+    ? `<svg class="stat__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">`
+      + `<path fill="currentColor" fill-rule="evenodd" d="${ICONS[name]}"/></svg>`
+    : '');
   const stats = (CONTENT.stats || [])
     .map((s) => `<div class="stat"><div class="stat__value">${esc(s.value)}</div>`
-      + `<div class="stat__label">${esc(s.label)}</div></div>`).join('');
+      + `<div class="stat__label">${icon(s.icon)}<span>${esc(s.label)}</span></div></div>`).join('');
   return `<div class="about__text">${bio}</div>`
     + (stats ? `<div class="about__side"><div class="stats">${stats}</div></div>` : '');
 };

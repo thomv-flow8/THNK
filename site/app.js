@@ -25,20 +25,28 @@
 
   /* Merkicoontje bij een dienst. Ontbreekt er een, dan blijft alleen de
      naam staan — de knop werkt dan gewoon door. */
-  function brandIcon(name) {
-    const d = (typeof BRAND_ICONS !== 'undefined') && BRAND_ICONS[name];
+  function iconFrom(d, cls) {
     if (!d) return null;
     const ns = 'http://www.w3.org/2000/svg';
     const svg = document.createElementNS(ns, 'svg');
     svg.setAttribute('viewBox', '0 0 24 24');
     svg.setAttribute('aria-hidden', 'true');
     svg.setAttribute('focusable', 'false');
+    if (cls) svg.setAttribute('class', cls);
     const path = document.createElementNS(ns, 'path');
     path.setAttribute('fill', 'currentColor');
+    path.setAttribute('fill-rule', 'evenodd');   // vormen met een gat erin
     path.setAttribute('d', d);
     svg.append(path);
     return svg;
   }
+
+  const brandIcon = (name) =>
+    iconFrom((typeof BRAND_ICONS !== 'undefined') && BRAND_ICONS[name]);
+
+  // Vorm bij een cijfer in de About-sectie (content.js: icon: 'play' | …)
+  const statIcon = (name) =>
+    iconFrom((typeof STAT_ICONS !== 'undefined') && STAT_ICONS[name], 'stat__icon');
 
   const LOGO = 'assets/thnk-logo-wit.svg';
   const logoImg = (label) => {
@@ -338,7 +346,11 @@
         const v = el('div', 'stat__value', s.value);
         v.setAttribute('aria-label', s.value);   // voorlezers krijgen meteen het eindgetal
         values.push([v, s.value]);
-        box.append(v, el('div', 'stat__label', s.label));
+        const label = el('div', 'stat__label');
+        const icon = statIcon(s.icon);
+        if (icon) label.append(icon);
+        label.append(el('span', null, s.label));
+        box.append(v, label);
         stats.append(box);
       });
       side.append(stats);
