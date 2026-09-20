@@ -527,7 +527,7 @@ h1,h2,h3{ margin:0; font-weight:800; letter-spacing:-.02em; line-height:1 }
   color:var(--muted); border:1px solid var(--line); border-radius:999px; padding:6px 14px;
 }
 .setplay__btn:hover .setplay__cue{ color:var(--fg); border-color:var(--fg) }
-.setplay__frame{ width:100%; height:320px; border:0; border-radius:14px; display:block }
+.setplay__frame{ width:100%; height:166px; border:0; border-radius:14px; display:block }
  (max-width:560px){
   .setplay__btn{ padding:14px 16px; gap:12px }
   .setplay__cue{ display:none }

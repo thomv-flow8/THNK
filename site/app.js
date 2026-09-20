@@ -295,9 +295,14 @@
         frame.title = `${d.event || d.city} — set on SoundCloud`;
         frame.loading = 'lazy';
         frame.allow = 'autoplay';
+        // De compacte speler (visual=false) is 166 px hoog in plaats van de
+        // grote met hoes. De achtergrond daarvan is wit en dat kunnen we
+        // niet omzetten, dus de knop en de golfvorm krijgen de zwarte kleur
+        // van de site mee — wit op wit zie je niet.
         frame.src = 'https://w.soundcloud.com/player/?url=' + encodeURIComponent(d.set)
-          + '&color=%23ffffff&auto_play=true&visual=true'
-          + '&hide_related=true&show_comments=false&show_reposts=false&show_teaser=false';
+          + '&color=%23111111&auto_play=true&visual=false&show_artwork=true'
+          + '&hide_related=true&show_comments=false&show_user=false'
+          + '&show_reposts=false&show_teaser=false';
         box.replaceChildren(frame);
         frame.focus();          // de knop is weg: de focus gaat mee naar de speler
       }, { once: true });
