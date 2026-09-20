@@ -99,10 +99,18 @@ const shows = () => {
     .sort((a, b) => new Date(a.date) - new Date(b.date))
     .map((d) => row(dateFmt(d.date), d.city, d.venue || '')).join('');
 
+  // Zonder JavaScript is er geen knop met een speler erachter, maar staan
+  // er gewone links: de tracklist en de opname blijven zo vindbaar.
+  const pastLinks = (d) => [
+    d.link ? `<a class="past__link" href="${esc(d.link)}" target="_blank" rel="noopener">Tracklist →</a>` : '',
+    d.set ? `<a class="past__link" href="${esc(d.set)}" target="_blank" rel="noopener">Listen to the set →</a>` : '',
+  ].join('');
+
   const past = (CONTENT.pastShows || []).filter((d) => d && d.date)
     .sort((a, b) => new Date(b.date) - new Date(a.date))
     .map((d) => row(dateFmt(d.date), d.event || d.city,
-      [d.stage, [d.venue, d.city].filter(Boolean).join(', ')].filter(Boolean).join(' · '))).join('');
+      [d.stage, [d.venue, d.city].filter(Boolean).join(', ')].filter(Boolean).join(' · '),
+      pastLinks(d))).join('');
 
   const head = next
     ? `<ul>${next}</ul>`

@@ -87,10 +87,16 @@ const CONTENT = {
   // Eerdere optredens: laten bookers zien waar je al gestaan hebt. Nieuwste
   // bovenaan (dat sorteert de site zelf). 'link' mag naar een tracklist,
   // aftermovie of set.
+  // 'set' is de opname op SoundCloud. Er komt dan een blok onder de regel
+  // met een play-knop; de speler van SoundCloud wordt pas geladen als
+  // iemand erop drukt. Zo blijft de pagina licht en zet SoundCloud geen
+  // cookies bij mensen die alleen langs scrollen.
   pastShows: [
     { date: '2018-02-17', event: 'A State Of Trance 850', stage: 'Progressive Stage',
       venue: 'Jaarbeurs', city: 'Utrecht',
-      link: 'https://www.1001tracklists.com/tracklist/xyg7k99/thnk-progressive-stage-a-state-of-trance-festival-850-jaarbeurs-utrecht-netherlands-2018-02-17.html' },
+      link: 'https://www.1001tracklists.com/tracklist/xyg7k99/thnk-progressive-stage-a-state-of-trance-festival-850-jaarbeurs-utrecht-netherlands-2018-02-17.html',
+      set: 'https://soundcloud.com/thomasvinkofficial/thnk-asot850-progressive-stage-17-02-2018',
+      setNote: 'Recorded live at the Jaarbeurs' },
   ],
 
   /* --- Over -------------------------------------------------------- */

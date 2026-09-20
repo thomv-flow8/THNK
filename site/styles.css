@@ -506,6 +506,33 @@ h1,h2,h3{ margin:0; font-weight:800; letter-spacing:-.02em; line-height:1 }
 }
 .past__link:hover{ color:var(--fg); border-bottom-color:var(--fg) }
 
+/* De opname van een optreden. Eerst alleen deze knop; pas als je erop
+   drukt komt de speler van SoundCloud in beeld (app.js). */
+.setplay{ flex:0 0 100%; margin-top:18px }
+.setplay__btn{
+  display:flex; align-items:center; gap:16px; width:100%;
+  padding:16px 20px; border:1px solid var(--line); border-radius:14px;
+  background:none; color:var(--fg); font:inherit; text-align:left; cursor:pointer;
+  transition:border-color .2s ease, background-color .2s ease;
+}
+.setplay__btn:hover{ border-color:var(--fg); background:rgba(127,127,127,.08) }
+.setplay__btn svg{ width:22px; height:22px; flex:none; color:var(--muted) }
+.setplay__btn:hover svg{ color:var(--fg) }
+.setplay__txt{ display:flex; flex-direction:column; gap:2px; flex:1 }
+.setplay__title{ font-size:14px; font-weight:700; text-transform:uppercase;
+                 letter-spacing:var(--track) }
+.setplay__note{ font-size:12px; color:var(--muted) }
+.setplay__cue{
+  font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:var(--track);
+  color:var(--muted); border:1px solid var(--line); border-radius:999px; padding:6px 14px;
+}
+.setplay__btn:hover .setplay__cue{ color:var(--fg); border-color:var(--fg) }
+.setplay__frame{ width:100%; height:320px; border:0; border-radius:14px; display:block }
+ (max-width:560px){
+  .setplay__btn{ padding:14px 16px; gap:12px }
+  .setplay__cue{ display:none }
+}
+
 /* ---------------------------------------------------------------- *
    Over
    ---------------------------------------------------------------- */

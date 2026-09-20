@@ -274,6 +274,38 @@
       dateBox.append(box);
     }
 
+    /* De opname van een optreden: eerst alleen een knop in eigen stijl.
+       Pas bij een klik komt de speler van SoundCloud binnen — dat scheelt
+       een halve megabyte en hun cookies voor iedereen die niet luistert. */
+    const setPlayer = (d) => {
+      const box = el('div', 'setplay');
+      const btn = el('button', 'setplay__btn');
+      btn.type = 'button';
+      const mark = brandIcon('SoundCloud') || statIcon('play');
+      if (mark) btn.append(mark);
+      const txt = el('span', 'setplay__txt');
+      txt.append(el('span', 'setplay__title', 'Listen to the set'));
+      if (d.setNote) txt.append(el('span', 'setplay__note', d.setNote));
+      btn.append(txt);
+      btn.append(el('span', 'setplay__cue', 'Play'));
+
+      btn.addEventListener('click', () => {
+        const frame = document.createElement('iframe');
+        frame.className = 'setplay__frame';
+        frame.title = `${d.event || d.city} — set on SoundCloud`;
+        frame.loading = 'lazy';
+        frame.allow = 'autoplay';
+        frame.src = 'https://w.soundcloud.com/player/?url=' + encodeURIComponent(d.set)
+          + '&color=%23ffffff&auto_play=true&visual=true'
+          + '&hide_related=true&show_comments=false&show_reposts=false&show_teaser=false';
+        box.replaceChildren(frame);
+        frame.focus();          // de knop is weg: de focus gaat mee naar de speler
+      }, { once: true });
+
+      box.append(btn);
+      return box;
+    };
+
     // Eerdere optredens, nieuwste bovenaan
     const past = (CONTENT.pastShows || []).filter((d) => d && d.date);
     if (past.length) {
@@ -293,6 +325,7 @@
           if (where) what.append(el('div', 'date__venue', where));
           li.append(what);
           if (d.link) li.append(external(el('a', 'past__link', 'Tracklist →'), d.link));
+          if (d.set) li.append(setPlayer(d));
           list.append(li);
         });
       wrap.append(list);
