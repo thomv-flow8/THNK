@@ -462,8 +462,12 @@ h1,h2,h3{ margin:0; font-weight:800; letter-spacing:-.02em; line-height:1 }
 .about__text p{ margin:0 0 1.1em; font-size:clamp(16px,1.7vw,19px); max-width:56ch; color:var(--muted) }
 .about__text p:first-child{ color:var(--fg) }
 
-.stats{ display:grid; gap:2px; border:1px solid var(--line); border-radius:18px; overflow:hidden }
+/* Geen spleet tussen de vakjes: daar scheen de achtergrond (met het
+   streepjespatroon) doorheen, waardoor de ene scheiding streepjes werden
+   en de andere een doorlopende lijn. Nu een echte lijn. */
+.stats{ display:grid; border:1px solid var(--line); border-radius:18px; overflow:hidden }
 .stat{ padding:22px 26px; background:var(--bg-soft) }
+.stat + .stat{ border-top:1px solid var(--line) }
 .stat__value{ font-size:clamp(26px,3.4vw,40px); font-weight:800; letter-spacing:-.02em; font-variant-numeric:tabular-nums }
 .stat__label{
   display:flex; align-items:center; gap:9px;
