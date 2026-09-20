@@ -122,7 +122,7 @@ const CONTENT = {
 
   /* --- Boekingen --------------------------------------------------- */
   booking: {
-    email: 'booking@thnk.nl',       // pas dit aan
+    email: 'booking@thnkmusic.com',
     note: 'For bookings, remixes and collaborations.',
   },
 
