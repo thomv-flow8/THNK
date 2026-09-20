@@ -704,3 +704,21 @@ body.is-shot .rule-in{ opacity:1; transform:none; transition:none }
 .page__meta{ font-size:12px; letter-spacing:.06em; color:var(--faint) }
 .foot__legal a{ border-bottom:1px solid var(--line) }
 .foot__legal a:hover{ border-bottom-color:var(--fg) }
+
+/* ---------------------------------------------------------------- *
+   Scherpe beelden voor grote schermen
+
+   De beelden zijn 1344 px breed. Dat is genoeg tot ongeveer 1500 px,
+   daarboven zie je het uitrekken. Voor die schermen — en voor retina,
+   waar elke punt uit twee of drie echte beeldpunten bestaat — staat er
+   een versie van 2688 px klaar. Samen bijna anderhalve megabyte, dus
+   die halen we alleen op wanneer het scherm er ook wat mee doet.
+   Telefoons blijven het lichte bestand laden.
+   ---------------------------------------------------------------- */
+@media (min-width:1500px), (min-resolution:2dppx) and (min-width:820px){
+  .hero__mountain{ background-image:url(assets/hero/ice-mountain-2x.webp) }
+  .hero__dunes{ background-image:url(assets/hero/ice-dunes-2x.webp) }
+  .hero__moss{ background-image:url(assets/hero/ice-moss-2x.webp) }
+  .flow__img{ background-image:url(assets/hero/ice-fall-2x.webp) }
+  .cave{ background-image:url(assets/hero/ice-cave-2x.webp) }
+}
