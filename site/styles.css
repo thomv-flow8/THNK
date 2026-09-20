@@ -233,7 +233,9 @@ h1,h2,h3{ margin:0; font-weight:800; letter-spacing:-.02em; line-height:1 }
    gewoon beeld — dus niets dat kan haperen of verspringen.            */
 .flow{
   position:relative; overflow:hidden;
-  height:clamp(380px, 68vh, 760px);
+  /* Hoog genoeg voor de muur van kolommen; op een laag scherm blijft er
+     nog genoeg van de hero zichtbaar. */
+  height:clamp(520px, 88vh, 980px);
   background:#000;
 }
 /* Het beeld is groter dan de band, zodat het kan meebewegen met de muis
