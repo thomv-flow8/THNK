@@ -61,6 +61,27 @@ const MOUSE = matchMedia('(hover: hover) and (pointer: fine)').matches;
   new IntersectionObserver((e) => (e[0].isIntersecting ? start() : stop())).observe(host);
 })();
 
+/* --- Scrollteken onder de hero ------------------------------------- *
+ * Het streepje wijst naar beneden zolang je bovenaan staat. Zodra je een
+ * stukje hebt gescrold heb je de hint niet meer nodig en vervaagt het.
+ * Scrol je terug naar boven, dan komt het weer.                        */
+(function () {
+  'use strict';
+
+  const cue = document.querySelector('.scroll');
+  if (!cue) return;
+
+  let pending = false;
+  const kijk = () => {
+    pending = false;
+    cue.classList.toggle('is-gone', window.scrollY > 80);
+  };
+  window.addEventListener('scroll', () => {
+    if (!pending) { pending = true; requestAnimationFrame(kijk); }
+  }, { passive: true });
+  kijk();
+})();
+
 /* --- Waterval tussen hero en Music --------------------------------- *
  * Het beeld zakt bij het scrollen iets mee, zodat het dieper aanvoelt dan
  * de secties eromheen. Het beeld is ruimer dan de band, dus er komt nooit

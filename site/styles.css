@@ -33,6 +33,11 @@
   --muted:   rgba(255,255,255,.56);
   --faint:   rgba(255,255,255,.34);
   --line:    rgba(255,255,255,.14);
+  /* Sterkere lijn en zachte vulling voor blokken die op zichzelf staan:
+     de lege agenda, de knop met de opname. Met alleen --line vielen die
+     weg tegen de achtergrond. */
+  --line-up: rgba(255,255,255,.34);
+  --fill:    rgba(255,255,255,.05);
 
   --font: "Archivo", "Helvetica Neue", Arial, sans-serif;
 
@@ -190,6 +195,31 @@ h1,h2,h3{ margin:0; font-weight:800; letter-spacing:-.02em; line-height:1 }
 }
 .hero__front .hero__tagline{ text-shadow:0 1px 16px rgba(0,0,0,.95), 0 0 2px rgba(0,0,0,.6) }
 
+/* Scrollteken: het streepje uit het logo zakt en lost op. Klein en stil —
+   het mag de knoppen erboven niet beconcurreren. Het is een echte link
+   naar Music, dus klikken werkt ook. Zodra je scrolt vervaagt het
+   (hero.js zet .is-gone). */
+.scroll{
+  position:absolute; left:50%; bottom:18px; z-index:10;
+  width:52px; height:34px; margin-left:-26px;
+  display:grid; place-items:center;
+  transition:opacity .4s ease;
+}
+.scroll__pill{
+  width:32px; height:5px; border-radius:2.5px; background:#fff;
+  box-shadow:0 1px 10px rgba(0,0,0,.6);
+  animation:scroll-zak 2s cubic-bezier(.4,0,.2,1) infinite;
+}
+.scroll.is-gone{ opacity:0; pointer-events:none }
+@keyframes scroll-zak{
+  0%   { transform:translateY(-10px); opacity:0 }
+  35%  { transform:translateY(0);     opacity:1 }
+  70%  { transform:translateY(12px);  opacity:1 }
+  100% { transform:translateY(22px);  opacity:0 }
+}
+/* Zonder beweging blijft het streepje gewoon staan. */
+@media (prefers-reduced-motion:reduce){ .scroll__pill{ animation:none; opacity:.8 } }
+
 /* Touchscreens: diepte via CSS-scrollanimaties in plaats van hero.js. Die
    draaien op hetzelfde spoor als het scrollen zelf, dus zonder haperen of
    flikkeren. Zelfde snelheden als in hero.js (--f). Browsers die dit niet
@@ -341,6 +371,8 @@ h1,h2,h3{ margin:0; font-weight:800; letter-spacing:-.02em; line-height:1 }
   --muted:   rgba(0,0,0,.6);
   --faint:   rgba(0,0,0,.42);
   --line:    rgba(0,0,0,.16);
+  --line-up: rgba(0,0,0,.34);
+  --fill:    rgba(0,0,0,.035);
 }
 
 .sec__head{ display:flex; align-items:baseline; gap:clamp(14px,2vw,26px) }
@@ -480,16 +512,18 @@ h1,h2,h3{ margin:0; font-weight:800; letter-spacing:-.02em; line-height:1 }
    ---------------------------------------------------------------- */
 .date{
   display:flex; flex-wrap:wrap; align-items:baseline; gap:var(--gap);
-  padding:22px 0; border-bottom:1px solid var(--line);
+  padding:22px 0; border-bottom:1px solid var(--line-up);
 }
-.date:first-child{ border-top:1px solid var(--line) }
+.date:first-child{ border-top:1px solid var(--line-up) }
 .date__when{ font-size:12px; letter-spacing:.06em; color:var(--faint); flex:0 0 7.5rem }
 .date__what{ flex:1 1 220px }
 .date__city{ font-size:clamp(18px,2.2vw,26px); font-weight:800; text-transform:uppercase }
 .date__venue{ font-size:13px; color:var(--muted) }
 
+/* De lege agenda is een blok op zichzelf: duidelijke rand en een zachte
+   vulling, zodat het als een kaart leest en niet als losse tekst. */
 .empty{
-  border:1px solid var(--line); border-radius:18px;
+  border:1px solid var(--line-up); border-radius:18px; background:var(--fill);
   padding:clamp(28px,5vw,52px);
   display:flex; flex-direction:column; gap:16px; align-items:flex-start;
 }
@@ -511,11 +545,11 @@ h1,h2,h3{ margin:0; font-weight:800; letter-spacing:-.02em; line-height:1 }
 .setplay{ flex:0 0 100%; margin-top:18px }
 .setplay__btn{
   display:flex; align-items:center; gap:16px; width:100%;
-  padding:16px 20px; border:1px solid var(--line); border-radius:14px;
-  background:none; color:var(--fg); font:inherit; text-align:left; cursor:pointer;
+  padding:16px 20px; border:1px solid var(--line-up); border-radius:14px;
+  background:var(--fill); color:var(--fg); font:inherit; text-align:left; cursor:pointer;
   transition:border-color .2s ease, background-color .2s ease;
 }
-.setplay__btn:hover{ border-color:var(--fg); background:rgba(127,127,127,.08) }
+.setplay__btn:hover{ border-color:var(--fg); background:rgba(127,127,127,.14) }
 .setplay__btn svg{ width:22px; height:22px; flex:none; color:var(--muted) }
 .setplay__btn:hover svg{ color:var(--fg) }
 .setplay__txt{ display:flex; flex-direction:column; gap:2px; flex:1 }
@@ -524,7 +558,7 @@ h1,h2,h3{ margin:0; font-weight:800; letter-spacing:-.02em; line-height:1 }
 .setplay__note{ font-size:12px; color:var(--muted) }
 .setplay__cue{
   font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:var(--track);
-  color:var(--muted); border:1px solid var(--line); border-radius:999px; padding:6px 14px;
+  color:var(--fg); border:1px solid var(--line-up); border-radius:999px; padding:6px 14px;
 }
 .setplay__btn:hover .setplay__cue{ color:var(--fg); border-color:var(--fg) }
 .setplay__frame{ width:100%; height:166px; border:0; border-radius:14px; display:block }
