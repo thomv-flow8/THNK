@@ -541,12 +541,17 @@ h1,h2,h3{ margin:0; font-weight:800; letter-spacing:-.02em; line-height:1 }
    sfeer, geen hoofdrol. */
 @media (min-width:900px){
   .about{ grid-template-columns:.8fr 1.2fr; align-items:start }
-  /* Beeld linksboven, tekst rechts over beide rijen, cijfers onder het
-     beeld. In de code staan ze in leesvolgorde (beeld, tekst, cijfers),
-     wat op een smal scherm precies goed uitkomt. */
+  /* Beeld linksboven, tekst ernaast, cijfers op een rij daaronder. In de
+     code staan ze in leesvolgorde (beeld, tekst, cijfers), wat op een
+     smal scherm precies goed uitkomt. */
   .about__photo{ grid-column:1; grid-row:1 }
-  .about__text { grid-column:2; grid-row:1 / span 2 }
-  .about__side { grid-column:1; grid-row:2 }
+  .about__text { grid-column:2; grid-row:1 }
+  /* De cijfers over de volle breedte onder het beeld en de tekst: naast
+     een smalle kolom bleef rechts een gat staan. */
+  .about__side { grid-column:1 / -1; grid-row:2 }
+  .about__side .stats{ grid-template-columns:repeat(3, 1fr) }
+  /* Op één rij hoort de scheiding verticaal te staan, niet horizontaal. */
+  .about__side .stat + .stat{ border-top:0; border-left:1px solid var(--line) }
 }
 
 .about__text p{ margin:0 0 1.1em; font-size:clamp(16px,1.7vw,19px); max-width:56ch; color:var(--muted) }
