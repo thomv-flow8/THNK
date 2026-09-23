@@ -363,20 +363,27 @@
   /* --- Over -------------------------------------------------------- */
   on('#about-body', (about) => {
     clear(about);
-    const text = el('div', 'about__text');
-    (CONTENT.bio || []).forEach((p) => text.append(el('p', null, p)));
-    about.append(text);
 
-    const side = el('div', 'about__side');
+    /* Het beeld staat links, de tekst rechts, de cijfers onder het beeld.
+       Het is een bewerking en geen foto van hem, dus de omschrijving zegt
+       dat ook: een voorlezer mag niet de indruk wekken dat dit een
+       persfoto is. */
+    let photo = null;
     if (CONTENT.photo) {
-      const wrap = el('div', 'about__photo');
+      photo = el('div', 'about__photo');
       const img = new Image();
       img.src = CONTENT.photo;
-      img.alt = 'THNK';
+      img.alt = 'Artwork: an Icelandic waterfall and mountains inside the outline of a face';
+      img.width = 1600; img.height = 1991;   // vaste maat: de pagina springt niet
       img.loading = 'lazy';
-      wrap.append(img);
-      side.append(wrap);
-    } else if ((CONTENT.stats || []).length) {
+      photo.append(img);
+    }
+    const side = el('div', 'about__side');
+
+    const text = el('div', 'about__text');
+    (CONTENT.bio || []).forEach((p) => text.append(el('p', null, p)));
+
+    if ((CONTENT.stats || []).length) {
       const stats = el('div', 'stats');
       const values = [];
       CONTENT.stats.forEach((s) => {
@@ -394,7 +401,11 @@
       side.append(stats);
       countUp(stats, values);
     }
-    about.append(side);
+    // Volgorde in de code: beeld, tekst, cijfers. Op een smal scherm lees
+    // je het zo ook; op een breed scherm legt de CSS de cijfers onder het
+    // beeld, links van de tekst.
+    if (photo) about.append(photo);
+    about.append(text, side);
   });
 
   /* --- Tellers ------------------------------------------------------ *

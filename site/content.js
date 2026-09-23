@@ -116,9 +116,10 @@ const CONTENT = {
     'After a break, he is picking it back up: new music, new shows.',
   ],
 
-  // Persfoto. Laat op null staan zolang je er geen hebt — de sectie werkt
-  // dan typografisch, zonder dat het onaf oogt.
-  photo: null,   // bijv. 'assets/thnk-press.jpg'
+  // Beeld bij About: links naast de tekst. Laat op null staan en de
+  // sectie werkt typografisch verder, zonder dat het onaf oogt.
+  // Dit is een bewerking, geen persfoto — zie de beschrijving in app.js.
+  photo: 'assets/thnk-portret.webp',
 
   /* --- Boekingen --------------------------------------------------- */
   booking: {

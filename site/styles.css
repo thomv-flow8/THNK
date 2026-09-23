@@ -537,7 +537,17 @@ h1,h2,h3{ margin:0; font-weight:800; letter-spacing:-.02em; line-height:1 }
    Over
    ---------------------------------------------------------------- */
 .about{ display:grid; gap:clamp(30px,5vw,64px); grid-template-columns:1fr }
-@media (min-width:900px){ .about{ grid-template-columns:1.25fr .75fr; align-items:start } }
+/* Beeld links, tekst rechts. De kolom met het beeld is smaller: het is
+   sfeer, geen hoofdrol. */
+@media (min-width:900px){
+  .about{ grid-template-columns:.8fr 1.2fr; align-items:start }
+  /* Beeld linksboven, tekst rechts over beide rijen, cijfers onder het
+     beeld. In de code staan ze in leesvolgorde (beeld, tekst, cijfers),
+     wat op een smal scherm precies goed uitkomt. */
+  .about__photo{ grid-column:1; grid-row:1 }
+  .about__text { grid-column:2; grid-row:1 / span 2 }
+  .about__side { grid-column:1; grid-row:2 }
+}
 
 .about__text p{ margin:0 0 1.1em; font-size:clamp(16px,1.7vw,19px); max-width:56ch; color:var(--muted) }
 .about__text p:first-child{ color:var(--fg) }
@@ -555,7 +565,11 @@ h1,h2,h3{ margin:0; font-weight:800; letter-spacing:-.02em; line-height:1 }
 }
 .stat__icon{ width:14px; height:14px; flex:0 0 auto; opacity:.85 }
 
-.about__photo img{ width:100%; height:auto; display:block; border-radius:18px }
+/* Het beeld staat op wit en de sectie is wit, maar er ligt een
+   streepjespatroon onder. Met multiply valt het wit weg alsof het
+   doorzichtig is en loopt het patroon er gewoon doorheen — zonder een
+   alfalaag, die dit beeld vijf keer zo zwaar zou maken. */
+.about__photo img{ width:100%; height:auto; display:block; mix-blend-mode:multiply }
 
 /* Supported by: de namen als één doorlopende regel, met het streepje uit
    het logo ertussen. Ze komen één voor één binnen (--i = volgorde).

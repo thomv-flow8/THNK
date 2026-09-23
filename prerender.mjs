@@ -75,7 +75,14 @@ const about = () => {
   const stats = (CONTENT.stats || [])
     .map((s) => `<div class="stat"><div class="stat__value">${esc(s.value)}</div>`
       + `<div class="stat__label">${icon(s.icon)}<span>${esc(s.label)}</span></div></div>`).join('');
-  return `<div class="about__text">${bio}</div>`
+  // Het beeld is een bewerking, geen persfoto: de omschrijving zegt dat ook.
+  const photo = CONTENT.photo
+    ? `<div class="about__photo"><img src="${esc(CONTENT.photo)}" width="1600" height="1991"`
+      + ` loading="lazy" alt="Artwork: an Icelandic waterfall and mountains inside the outline of a face"></div>`
+    : '';
+  // Zelfde volgorde als in app.js: beeld, tekst, cijfers. De CSS legt de
+  // cijfers op een breed scherm onder het beeld.
+  return photo + `<div class="about__text">${bio}</div>`
     + (stats ? `<div class="about__side"><div class="stats">${stats}</div></div>` : '');
 };
 
