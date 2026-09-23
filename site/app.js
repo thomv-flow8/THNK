@@ -459,6 +459,32 @@
     }
   });
 
+  /* --- Contactpagina ------------------------------------------------ *
+   * Het algemene adres groot bovenaan, het boekingsadres eronder: een
+   * promotor die hier binnenkomt hoeft niet te zoeken. Staat er geen
+   * algemeen adres in content.js, dan blijft het boekingsadres over.  */
+  on('#contact-body', (box) => {
+    clear(box);
+    const c = CONTENT.contact || {};
+    const b = CONTENT.booking || {};
+    const eerste = c.email || b.email;
+    if (!eerste) return;
+
+    const a = el('a', 'booking__mail', eerste);
+    a.href = `mailto:${eerste}`;
+    box.append(a);
+    box.append(el('p', 'booking__note', c.email ? c.note : b.note));
+
+    if (c.email && b.email && b.email !== c.email) {
+      const p = el('p', 'booking__note');
+      p.append('Bookings: ');
+      const link = el('a', 'contact__alt', b.email);
+      link.href = `mailto:${b.email}`;
+      p.append(link);
+      box.append(p);
+    }
+  });
+
   /* --- Socials ----------------------------------------------------- */
   on('#socials', (soc) => {
     clear(soc);

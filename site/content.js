@@ -126,6 +126,15 @@ const CONTENT = {
     note: 'For bookings, remixes and collaborations.',
   },
 
+  /* --- Contactpagina ------------------------------------------------ */
+  // Het algemene adres. Op contact.html staat dit bovenaan en het
+  // boekingsadres eronder. Laat 'email' leeg en de contactpagina toont
+  // alleen het boekingsadres hierboven.
+  contact: {
+    email: 'info@thnkmusic.com',
+    note: 'General enquiries, press and promos.',
+  },
+
   /* --- Socials ----------------------------------------------------- */
   socials: [
     { name: 'Instagram', url: 'https://www.instagram.com/thnk_nl/' },

@@ -126,6 +126,21 @@ const booking = () => {
     + (b.note ? `<p class="booking__note">${esc(b.note)}</p>` : '');
 };
 
+// Contactpagina: het algemene adres groot, het boekingsadres eronder.
+const contact = () => {
+  const c = CONTENT.contact || {};
+  const b = CONTENT.booking || {};
+  const first = c.email || b.email;
+  if (!first) return '';
+  const note = c.email ? c.note : b.note;
+  return `<a class="booking__mail" href="mailto:${esc(first)}">${esc(first)}</a>`
+    + (note ? `<p class="booking__note">${esc(note)}</p>` : '')
+    + (c.email && b.email && b.email !== c.email
+      ? `<p class="booking__note">Bookings: `
+        + `<a class="contact__alt" href="mailto:${esc(b.email)}">${esc(b.email)}</a></p>`
+      : '');
+};
+
 const links = (items) => (items || []).filter((x) => x.url)
   .map((x) => `<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.name)}</a>`).join('');
 
@@ -177,14 +192,24 @@ music = put(music, 'discoCount', `${REL.length} releases, ${years[years.length -
 music = put(music, 'disco', disco());
 music = put(music, 'socials', socials());
 
+// De contactpagina: zonder dit staat het adres er alleen voor wie
+// JavaScript aan heeft, en dat is precies de pagina waar iemand een adres
+// komt halen.
+let contactPage = readFileSync(`${DIR}/contact.html`, 'utf8');
+contactPage = put(contactPage, 'contact-body', contact());
+contactPage = put(contactPage, 'platforms', links(CONTENT.platforms));
+contactPage = put(contactPage, 'socials', socials());
+
 const words = (html) => (html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().split(' ').length);
 console.log(`index.html  ~${words(index)} woorden`);
 console.log(`music.html  ~${words(music)} woorden`);
+console.log(`contact.html ~${words(contactPage)} woorden`);
 
 if (CHECK) {
   console.log('\n--check: niets weggeschreven.');
 } else {
   writeFileSync(`${DIR}/index.html`, index);
   writeFileSync(`${DIR}/music.html`, music);
-  console.log('\nTeksten in site/index.html en site/music.html gezet.');
+  writeFileSync(`${DIR}/contact.html`, contactPage);
+  console.log('\nTeksten in site/index.html, music.html en contact.html gezet.');
 }
